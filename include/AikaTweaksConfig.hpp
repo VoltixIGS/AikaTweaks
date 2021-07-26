@@ -5,8 +5,8 @@
 DECLARE_CONFIG(AikaTweaksConfig,
     CONFIG_VALUE(Resolution, float, "Resolution", 1.0f);
     CONFIG_VALUE(RefreshRate, float, "RefreshRate", -1.0f); // We don't know the Refresh Rate, at this time.
+    CONFIG_VALUE(EnhancedFakeGlow, bool, "EnhancedFakeGlow", true);
     CONFIG_VALUE(Smoke, bool, "Smoke", false);
-    CONFIG_VALUE(BurnMarks, bool, "BurnMarks", true);
     CONFIG_VALUE(FpsCounter, bool, "FpsCounter", true);
     CONFIG_VALUE(BloomFogIntensity, float, "BloomFogIntensity", 1.0f);
     CONFIG_VALUE(DebrisOldschool, bool, "DebrisOldschool", true);
@@ -23,7 +23,6 @@ DECLARE_CONFIG(AikaTweaksConfig,
         CONFIG_INIT_VALUE(Resolution);
         CONFIG_INIT_VALUE(RefreshRate);
         CONFIG_INIT_VALUE(Smoke);
-        CONFIG_INIT_VALUE(BurnMarks);
         CONFIG_INIT_VALUE(FpsCounter);
         CONFIG_INIT_VALUE(BloomFogIntensity);
         CONFIG_INIT_VALUE(DebrisOldschool);

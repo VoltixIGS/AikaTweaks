@@ -18,7 +18,6 @@ MAKE_HOOK_MATCH(
     
     self->vrResolutionScale->set_value(getAikaTweaksConfig().Resolution.GetValue());
     self->smokeGraphicsSettings->set_value(getAikaTweaksConfig().Smoke.GetValue());
-    self->burnMarkTrailsEnabled->set_value(getAikaTweaksConfig().BurnMarks.GetValue());
     self->depthTextureEnabled->set_value(false); // We never want the depth texture enabled, anyways.
 }
 

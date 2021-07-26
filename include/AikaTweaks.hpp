@@ -14,6 +14,7 @@ namespace AikaTweaks {
         void NoteDebris();
         void NoteJump();
         void NoteMovement();
+        void ParametricBoxFakeGlowController();
         void TubeBloomPrePassLight();
         void VRRenderingParamsSetup();
     }

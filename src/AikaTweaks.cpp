@@ -27,6 +27,7 @@ void AikaTweaks::Install() {
     Hooks::NoteDebris();
     Hooks::NoteJump();
     Hooks::NoteMovement();
+    Hooks::ParametricBoxFakeGlowController();
     Hooks::TubeBloomPrePassLight();
     Hooks::VRRenderingParamsSetup();
 }
@@ -75,17 +76,16 @@ void AikaTweaks::MainViewController::DidActivate(
             );
         }
 
+        BeatSaberUI::CreateToggle(container->get_transform(), "Enhanced Fake Glow", getAikaTweaksConfig().EnhancedFakeGlow.GetValue(), 
+            [](bool value) {
+                getAikaTweaksConfig().EnhancedFakeGlow.SetValue(value);
+            }
+        );
+
         BeatSaberUI::CreateToggle(container->get_transform(), "Smoke", getAikaTweaksConfig().Smoke.GetValue(), 
             [this](bool value) {
                 _requireRestart = true;
                 getAikaTweaksConfig().Smoke.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Burn Marks", getAikaTweaksConfig().BurnMarks.GetValue(), 
-            [this](bool value) {
-                _requireRestart = true;
-                getAikaTweaksConfig().BurnMarks.SetValue(value);
             }
         );
 
