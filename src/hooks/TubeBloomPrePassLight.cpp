@@ -7,7 +7,7 @@
 
 using namespace GlobalNamespace;
 
-inline std::map<TubeBloomPrePassLight*, float> originalBloomFogIntensityMultipliers;
+std::map<TubeBloomPrePassLight*, float> originalBloomFogIntensityMultipliers;
 
 MAKE_HOOK_MATCH(
     TubeBloomPrePassLight_OnEnable,

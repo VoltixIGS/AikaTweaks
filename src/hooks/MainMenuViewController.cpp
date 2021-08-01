@@ -15,12 +15,6 @@ MAKE_HOOK_MATCH(
     bool addedToHierarchy,
     bool screenSystemEnabling
 ) {
-    self->soloButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideSolo.GetValue());
-    self->partyButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideParty.GetValue());
-    self->campaignButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideCampaign.GetValue());
-    self->quitButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideQuit.GetValue());
-    self->multiplayerButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideMultiplayer.GetValue());
-    self->howToPlayButton->get_gameObject()->SetActive(!getAikaTweaksConfig().HideHowToPlay.GetValue());
     self->musicPackPromoBanner->get_gameObject()->SetActive(!getAikaTweaksConfig().HidePromo.GetValue());
 
     MainMenuViewController_DidActivate(self, firstActivation, addedToHierarchy, screenSystemEnabling);

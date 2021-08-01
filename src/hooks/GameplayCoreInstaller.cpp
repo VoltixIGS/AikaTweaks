@@ -28,7 +28,7 @@ MAKE_HOOK_MATCH(
     GameplayCoreInstaller_InstallBindings(self);
 
     if (getAikaTweaksConfig().FpsCounter.GetValue()) {
-        Object::Instantiate(GetFirstObjectOfType<GlobalNamespace::FPSCounterUIController*>())->fpsCounter->set_enabled(true);
+        Object::Instantiate(GetFirstObjectOfType<FPSCounterUIController*>())->fpsCounter->set_enabled(true);
     }
 }
 

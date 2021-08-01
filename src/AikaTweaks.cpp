@@ -24,9 +24,6 @@ void AikaTweaks::Install() {
     Hooks::MainMenuViewController();
     Hooks::MainSettingsModelSO();
     Hooks::MainSystemInit();
-    Hooks::NoteDebris();
-    Hooks::NoteJump();
-    Hooks::NoteMovement();
     Hooks::ParametricBoxFakeGlowController();
     Hooks::TubeBloomPrePassLight();
     Hooks::VRRenderingParamsSetup();
@@ -54,9 +51,9 @@ void AikaTweaks::MainViewController::DidActivate(
         }
         
         BeatSaberUI::CreateIncrementSetting(container->get_transform(), "Resolution", 1, 0.1f, getAikaTweaksConfig().Resolution.GetValue(), 0.4f, resolutionMaxValue,
-            [this](float value) {
-                _requireRestart = true;
+            [](float value) {
                 getAikaTweaksConfig().Resolution.SetValue(value);
+                VRRenderingParamsSetup::Refresh(std::make_optional(value));
             }
         );
 
@@ -82,7 +79,7 @@ void AikaTweaks::MainViewController::DidActivate(
             }
         );
 
-        BeatSaberUI::CreateToggle(container->get_transform(), "Smoke", getAikaTweaksConfig().Smoke.GetValue(), 
+        BeatSaberUI::CreateToggle(container->get_transform(), "Smoke (Experimental)", getAikaTweaksConfig().Smoke.GetValue(), 
             [this](bool value) {
                 _requireRestart = true;
                 getAikaTweaksConfig().Smoke.SetValue(value);
@@ -104,62 +101,10 @@ void AikaTweaks::MainViewController::DidActivate(
             }
         );
 
-        BeatSaberUI::CreateText(container->get_transform(), "<size=200%>Debris");
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Oldschool", getAikaTweaksConfig().DebrisOldschool.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().DebrisOldschool.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateText(container->get_transform(), "<size=200%>Misc.");
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Feet Saber (Experimental)", getAikaTweaksConfig().FeetSaber.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().FeetSaber.SetValue(value);
-            }
-        );
-
         BeatSaberUI::CreateText(container->get_transform(), "<size=200%>Main Menu");
 
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide Solo", getAikaTweaksConfig().HideSolo.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideSolo.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide Party", getAikaTweaksConfig().HideParty.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideParty.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide Campaign", getAikaTweaksConfig().HideCampaign.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideCampaign.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide Quit", getAikaTweaksConfig().HideQuit.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideQuit.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide Multiplayer", getAikaTweaksConfig().HideMultiplayer.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideMultiplayer.SetValue(value);
-            }
-        );
-
-        BeatSaberUI::CreateToggle(container->get_transform(), "Hide How To Play", getAikaTweaksConfig().HideHowToPlay.GetValue(), 
-            [](bool value) { 
-                getAikaTweaksConfig().HideHowToPlay.SetValue(value);
-            }
-        );
-
         BeatSaberUI::CreateToggle(container->get_transform(), "Hide Promo", getAikaTweaksConfig().HidePromo.GetValue(), 
-            [](bool value) { 
+            [](bool value) {
                 getAikaTweaksConfig().HidePromo.SetValue(value);
             }
         );

@@ -30,7 +30,12 @@ MAKE_HOOK_MATCH(
     AikaTweaks::VRRenderingParamsSetup::Refresh();
 }
 
-void AikaTweaks::VRRenderingParamsSetup::Refresh() {
+void AikaTweaks::VRRenderingParamsSetup::Refresh(std::optional<float> vrResolutionScale) {
+    // Check if we want to set vrResolutionScale on refresh.
+    if (vrResolutionScale.has_value()) {
+        vrRenderingParamsSetup->vrResolutionScale->set_value(vrResolutionScale.value());
+    }
+
     if (vrRenderingParamsSetup->vrResolutionScale->get_value() == 0.0f) {
         vrRenderingParamsSetup->vrResolutionScale->set_value(1.0f);
     }

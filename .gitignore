@@ -42,6 +42,7 @@ out/
 [Oo]bj/
 [Oo]bjs/
 ndkpath.txt
+*.qmod
 *.zip
 *.txt
 extern/

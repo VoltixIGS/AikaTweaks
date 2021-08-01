@@ -11,16 +11,13 @@ namespace AikaTweaks {
         void MainMenuViewController();
         void MainSettingsModelSO();
         void MainSystemInit();
-        void NoteDebris();
-        void NoteJump();
-        void NoteMovement();
         void ParametricBoxFakeGlowController();
         void TubeBloomPrePassLight();
         void VRRenderingParamsSetup();
     }
 
     namespace VRRenderingParamsSetup {
-        void Refresh();
+        void Refresh(std::optional<float> vrResolutionScale = std::nullopt);
     }
 
     void Install();
