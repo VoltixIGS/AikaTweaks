@@ -25,6 +25,7 @@ void AikaTweaks::Install() {
     Hooks::MainSettingsModelSO();
     Hooks::MainSystemInit();
     Hooks::ParametricBoxFakeGlowController();
+    Hooks::PyramidBloomMainEffectSO();
     Hooks::TubeBloomPrePassLight();
     Hooks::VRRenderingParamsSetup();
 }
@@ -78,6 +79,15 @@ void AikaTweaks::MainViewController::DidActivate(
                 getAikaTweaksConfig().EnhancedFakeGlow.SetValue(value);
             }
         );
+
+        if (OVRPlugin::GetSystemHeadsetType() == OVRPlugin::SystemHeadset::Oculus_Quest_2) {
+            BeatSaberUI::CreateToggle(container->get_transform(), "Bloom (Experimental)", getAikaTweaksConfig().Bloom.GetValue(), 
+                [this](bool value) {
+                    _requireRestart = true;
+                    getAikaTweaksConfig().Bloom.SetValue(value);
+                }
+            );
+        }
 
         BeatSaberUI::CreateToggle(container->get_transform(), "Smoke (Experimental)", getAikaTweaksConfig().Smoke.GetValue(), 
             [this](bool value) {

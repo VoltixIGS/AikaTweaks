@@ -12,6 +12,7 @@ namespace AikaTweaks {
         void MainSettingsModelSO();
         void MainSystemInit();
         void ParametricBoxFakeGlowController();
+        void PyramidBloomMainEffectSO();
         void TubeBloomPrePassLight();
         void VRRenderingParamsSetup();
     }
