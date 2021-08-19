@@ -63,7 +63,7 @@ void AikaTweaks::MainViewController::DidActivate(
             // This is a bit terrible, but oh well...
             std::vector<std::string> refreshRates;
             for (int i = 0; i < systemDisplayFrequenciesAvailable->Length(); i++) {
-                refreshRates.push_back(std::to_string(systemDisplayFrequenciesAvailable->values[i]));
+                refreshRates.push_back(string_format("%d", (int)systemDisplayFrequenciesAvailable->values[i]));
             }
 
             BeatSaberUI::CreateDropdown(container->get_transform(), "Refresh Rate", std::to_string(getAikaTweaksConfig().RefreshRate.GetValue()), refreshRates,
