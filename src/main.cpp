@@ -2,8 +2,6 @@
 #include "AikaTweaks.hpp"
 #include "AikaTweaksConfig.hpp"
 
-static ModInfo modInfo;
-
 DEFINE_CONFIG(AikaTweaksConfig);
 
 Logger& getLogger() {

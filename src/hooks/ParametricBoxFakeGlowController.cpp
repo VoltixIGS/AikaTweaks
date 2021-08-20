@@ -6,8 +6,6 @@
 #include <cmath>
 #include <vector>
 
-using namespace GlobalNamespace;
-
 #define MIN 0.5f
 #define X 13.5f
 
@@ -24,11 +22,11 @@ float Mathf_Min(std::vector<float> values) {
 
 MAKE_HOOK_MATCH(
     ParametricBoxFakeGlowController_Refresh,
-    &ParametricBoxFakeGlowController::Refresh,
+    &GlobalNamespace::ParametricBoxFakeGlowController::Refresh,
     void,
-    ParametricBoxFakeGlowController* self
+    GlobalNamespace::ParametricBoxFakeGlowController* self
 ) {
-    if (getAikaTweaksConfig().EnhancedFakeGlow.GetValue()) {
+    if (!getAikaTweaksConfig().Bloom.GetValue()) {
         float value = Mathf_Min({ self->width, self->height, self->length });
 
         self->edgeSizeMultiplier = fmin(self->edgeSizeMultiplier, fmax(MIN, value * X));

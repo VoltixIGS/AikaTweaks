@@ -4,7 +4,7 @@
     "name": "AikaTweaks",
     "id": "AikaTweaks",
     "author": "Aika, xyonico",
-    "version": "1.1.1",
+    "version": "2.0.0",
     "packageId": "com.beatgames.beatsaber",
     "packageVersion": "1.16.4",
     "description": "Various tweaks for Beat Saber.",
@@ -12,11 +12,14 @@
     "modFiles": [
         "libAikaTweaks.so"
     ],
+    "libraryFiles": [
+        "libbeatsaber-hook_2_2_5.so"
+    ],
     "dependencies": [
         {
             "id": "questui",
-            "version": "^0.10.1",
-            "downloadIfMissing": "https://github.com/darknight1050/questui/releases/download/v0.10.1/questui.qmod"
+            "version": "^0.10.2",
+            "downloadIfMissing": "https://github.com/darknight1050/questui/releases/download/v0.10.2/questui.qmod"
         }
     ]
 }

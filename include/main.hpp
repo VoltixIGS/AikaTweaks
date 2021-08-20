@@ -11,4 +11,6 @@
 #include "questui/shared/BeatSaberUI.hpp"
 #include "questui/shared/QuestUI.hpp"
 
+inline ModInfo modInfo;
+
 Logger& getLogger();

@@ -1,25 +1,28 @@
 #include "AikaTweaks.hpp"
 #include "AikaTweaksConfig.hpp"
 
-#include <map>
-
 #include "GlobalNamespace/TubeBloomPrePassLight.hpp"
+#include "System/Collections/Generic/Dictionary_2.hpp"
 
-using namespace GlobalNamespace;
-
-std::map<TubeBloomPrePassLight*, float> originalBloomFogIntensityMultipliers;
+SafePtr<System::Collections::Generic::Dictionary_2<GlobalNamespace::TubeBloomPrePassLight*, float>> originalBloomFogIntensityMultipliers;
 
 MAKE_HOOK_MATCH(
     TubeBloomPrePassLight_OnEnable,
-    &TubeBloomPrePassLight::OnEnable,
+    &GlobalNamespace::TubeBloomPrePassLight::OnEnable,
     void,
-    TubeBloomPrePassLight* self
+    GlobalNamespace::TubeBloomPrePassLight* self
 ) {
-    if (originalBloomFogIntensityMultipliers.find(self) == originalBloomFogIntensityMultipliers.end()) {
-        originalBloomFogIntensityMultipliers[self] = self->bloomFogIntensityMultiplier;
+    using namespace System::Collections::Generic;
+
+    if (!originalBloomFogIntensityMultipliers) {
+        originalBloomFogIntensityMultipliers = Dictionary_2<GlobalNamespace::TubeBloomPrePassLight*, float>::New_ctor();
     }
 
-    self->bloomFogIntensityMultiplier = originalBloomFogIntensityMultipliers[self] * getAikaTweaksConfig().BloomFogIntensity.GetValue();
+    if (!originalBloomFogIntensityMultipliers->ContainsKey(self)) {
+        originalBloomFogIntensityMultipliers->set_Item(self, self->bloomFogIntensityMultiplier);
+    }
+
+    self->bloomFogIntensityMultiplier = originalBloomFogIntensityMultipliers->get_Item(self) * getAikaTweaksConfig().BloomFogIntensity.GetValue();
 
     TubeBloomPrePassLight_OnEnable(self);
 }

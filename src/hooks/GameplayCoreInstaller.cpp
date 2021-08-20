@@ -1,34 +1,25 @@
 #include "AikaTweaks.hpp"
 #include "AikaTweaksConfig.hpp"
+#include "AikaUtils.hpp"
 
 #include "GlobalNamespace/FPSCounter.hpp"
 #include "GlobalNamespace/FPSCounterUIController.hpp"
 #include "GlobalNamespace/GameplayCoreInstaller.hpp"
-#include "UnityEngine/Resources.hpp"
-
-using namespace GlobalNamespace;
-using namespace UnityEngine;
-
-template <typename T>
-T GetFirstObjectOfType() {
-    auto objects = Resources::FindObjectsOfTypeAll<T>();
-    if (objects) {
-        return objects->values[0];
-    } else {
-        return nullptr;
-    }
-}
 
 MAKE_HOOK_MATCH(
     GameplayCoreInstaller_InstallBindings,
-    &GameplayCoreInstaller::InstallBindings,
+    &GlobalNamespace::GameplayCoreInstaller::InstallBindings,
     void,
-    GameplayCoreInstaller* self
+    GlobalNamespace::GameplayCoreInstaller* self
 ) {
+    using namespace GlobalNamespace;
+    using namespace UnityEngine;
+
     GameplayCoreInstaller_InstallBindings(self);
 
     if (getAikaTweaksConfig().FpsCounter.GetValue()) {
-        Object::Instantiate(GetFirstObjectOfType<FPSCounterUIController*>())->fpsCounter->set_enabled(true);
+        FPSCounterUIController* fpsCounterUIController = Object::Instantiate(AikaUtils::GetFirstObjectOfType<FPSCounterUIController*>());
+        fpsCounterUIController->fpsCounter->set_enabled(true);
     }
 }
 

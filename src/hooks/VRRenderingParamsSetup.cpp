@@ -13,17 +13,13 @@
 #include "UnityEngine/Mathf.hpp"
 #include "UnityEngine/XR/XRSettings.hpp"
 
-using namespace GlobalNamespace;
-using namespace UnityEngine;
-using namespace UnityEngine::XR;
-
-inline VRRenderingParamsSetup* vrRenderingParamsSetup;
+GlobalNamespace::VRRenderingParamsSetup* vrRenderingParamsSetup; // TODO(Aika): Wrap with SafePtr?
 
 MAKE_HOOK_MATCH(
     VRRenderingParamsSetup_OnEnable,
-    &VRRenderingParamsSetup::OnEnable,
+    &GlobalNamespace::VRRenderingParamsSetup::OnEnable,
     void,
-    VRRenderingParamsSetup* self
+    GlobalNamespace::VRRenderingParamsSetup* self
 ) {
     vrRenderingParamsSetup = self;
 
@@ -31,6 +27,10 @@ MAKE_HOOK_MATCH(
 }
 
 void AikaTweaks::VRRenderingParamsSetup::Refresh(std::optional<float> vrResolutionScale) {
+    using namespace GlobalNamespace;
+    using namespace UnityEngine;
+    using namespace UnityEngine::XR;
+
     // Check if we want to set vrResolutionScale on refresh.
     if (vrResolutionScale.has_value()) {
         vrRenderingParamsSetup->vrResolutionScale->set_value(vrResolutionScale.value());
@@ -57,10 +57,15 @@ void AikaTweaks::VRRenderingParamsSetup::Refresh(std::optional<float> vrResoluti
 
     OVRPlugin::SetClientColorDesc(OVRPlugin::ColorSpace::Rift_CV1);
 
+    // Set our CPU/GPU levels.
+    OVRPlugin::set_cpuLevel(getAikaTweaksConfig().CpuLevel.GetValue());
+    OVRPlugin::set_gpuLevel(getAikaTweaksConfig().GpuLevel.GetValue());
+
     // Check if our (default) refresh rate has been set.
     float refreshRate = getAikaTweaksConfig().RefreshRate.GetValue();
     if (refreshRate == -1.0f) {
         refreshRate = Mathf::Max(OVRPlugin::get_systemDisplayFrequenciesAvailable());
+        
         getAikaTweaksConfig().RefreshRate.SetValue(refreshRate);
     }
 
