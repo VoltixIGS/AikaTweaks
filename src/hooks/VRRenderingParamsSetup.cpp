@@ -13,7 +13,7 @@
 #include "UnityEngine/Mathf.hpp"
 #include "UnityEngine/XR/XRSettings.hpp"
 
-GlobalNamespace::VRRenderingParamsSetup* vrRenderingParamsSetup; // TODO(Aika): Wrap with SafePtr?
+SafePtr<GlobalNamespace::VRRenderingParamsSetup> vrRenderingParamsSetup;
 
 MAKE_HOOK_MATCH(
     VRRenderingParamsSetup_OnEnable,
@@ -35,11 +35,9 @@ void AikaTweaks::VRRenderingParamsSetup::Refresh(std::optional<float> vrResoluti
     if (vrResolutionScale.has_value()) {
         vrRenderingParamsSetup->vrResolutionScale->set_value(vrResolutionScale.value());
     }
-
     if (vrRenderingParamsSetup->vrResolutionScale->get_value() == 0.0f) {
         vrRenderingParamsSetup->vrResolutionScale->set_value(1.0f);
     }
-
     if (vrRenderingParamsSetup->menuVRResolutionScaleMultiplier->get_value() == 0.0f) {
         vrRenderingParamsSetup->menuVRResolutionScaleMultiplier->set_value(1.0f);
     }
@@ -65,7 +63,6 @@ void AikaTweaks::VRRenderingParamsSetup::Refresh(std::optional<float> vrResoluti
     float refreshRate = getAikaTweaksConfig().RefreshRate.GetValue();
     if (refreshRate == -1.0f) {
         refreshRate = Mathf::Max(OVRPlugin::get_systemDisplayFrequenciesAvailable());
-        
         getAikaTweaksConfig().RefreshRate.SetValue(refreshRate);
     }
 

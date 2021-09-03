@@ -18,7 +18,7 @@ MAKE_HOOK_MATCH(
     self->vrResolutionScale->set_value(getAikaTweaksConfig().Resolution.GetValue());
     self->antiAliasingLevel->set_value(getAikaTweaksConfig().AntiAliasing.GetValue());
     self->smokeGraphicsSettings->set_value(getAikaTweaksConfig().Smoke.GetValue());
-    self->mainEffectGraphicsSettings->set_value(getAikaTweaksConfig().Bloom.GetValue() ? 1 : 0);
+    self->mainEffectGraphicsSettings->set_value(getAikaTweaksConfig().Bloom.GetValue() >= 1);
     self->depthTextureEnabled->set_value(false); // We never want the depth texture enabled, anyways.
 }
 

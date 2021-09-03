@@ -17,7 +17,6 @@ MAKE_HOOK_MATCH(
     if (!originalBloomFogIntensityMultipliers) {
         originalBloomFogIntensityMultipliers = Dictionary_2<GlobalNamespace::TubeBloomPrePassLight*, float>::New_ctor();
     }
-
     if (!originalBloomFogIntensityMultipliers->ContainsKey(self)) {
         originalBloomFogIntensityMultipliers->set_Item(self, self->bloomFogIntensityMultiplier);
     }

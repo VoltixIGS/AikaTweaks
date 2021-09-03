@@ -1,14 +1,34 @@
 #pragma once
 
 #include "main.hpp"
-#include "views/MainViewController.hpp"
+
+#include "UnityEngine/Resources.hpp"
 
 namespace AikaTweaks {
+    namespace Utils {
+        template <typename T>
+        T GetFirstObjectOfType() {
+            auto objects = UnityEngine::Resources::FindObjectsOfTypeAll<T>();
+            if (objects) {
+                return objects->values[0];
+            } else {
+                return nullptr;
+            }
+        }
+        
+        void CopyTexture(UnityEngine::Texture* src, int srcElement, int srcMip, int srcX, int srcY, int srcWidth, int srcHeight, UnityEngine::Texture* dst, int dstElement, int dstMip, int dstX, int dstY);
+
+        UnityEngine::Matrix4x4 GetGPUProjectionMatrix(UnityEngine::Matrix4x4 proj, bool renderIntoTexture);
+    }
+
     namespace Hooks {
         void GameplayCoreInstaller();
+        void KawaseBloomMainEffectSO();
         void MainSettingsModelSO();
+        void MainSystemInit();
         void ParametricBoxFakeGlowController();
         void PyramidBloomMainEffectSO();
+        void StretchableObstacle();
         void TubeBloomPrePassLight();
         void VRRenderingParamsSetup();
     }
@@ -19,13 +39,3 @@ namespace AikaTweaks {
 
     void Install();
 }
-
-inline bool requireRestart; // Tells our FlowCoordinator to soft-restart our game, whenever necessary.
-
-DECLARE_CLASS_CODEGEN(AikaTweaks, MainFlowCoordinator, HMUI::FlowCoordinator,
-    DECLARE_INSTANCE_FIELD(AikaTweaks::MainViewController*, mainViewController);
-    DECLARE_INSTANCE_FIELD(HMUI::ViewController*, currentViewController);
-
-    DECLARE_OVERRIDE_METHOD(void, DidActivate, il2cpp_utils::FindMethodUnsafe("HMUI", "FlowCoordinator", "DidActivate", 3), bool firstActivation, bool addedToHierarchy, bool screenSystemEnabling);
-    DECLARE_OVERRIDE_METHOD(void, BackButtonWasPressed, il2cpp_utils::FindMethodUnsafe("HMUI", "FlowCoordinator", "BackButtonWasPressed", 1), HMUI::ViewController* topViewController);
-)

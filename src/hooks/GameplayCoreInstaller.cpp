@@ -1,6 +1,5 @@
 #include "AikaTweaks.hpp"
 #include "AikaTweaksConfig.hpp"
-#include "AikaUtils.hpp"
 
 #include "GlobalNamespace/FPSCounter.hpp"
 #include "GlobalNamespace/FPSCounterUIController.hpp"
@@ -18,8 +17,10 @@ MAKE_HOOK_MATCH(
     GameplayCoreInstaller_InstallBindings(self);
 
     if (getAikaTweaksConfig().FpsCounter.GetValue()) {
-        FPSCounterUIController* fpsCounterUIController = Object::Instantiate(AikaUtils::GetFirstObjectOfType<FPSCounterUIController*>());
-        fpsCounterUIController->fpsCounter->set_enabled(true);
+        FPSCounterUIController* fpsCounterUIController = Object::Instantiate(AikaTweaks::Utils::GetFirstObjectOfType<FPSCounterUIController*>());
+        if (fpsCounterUIController && fpsCounterUIController->fpsCounter) {
+            fpsCounterUIController->fpsCounter->set_enabled(true);
+        }
     }
 }
 

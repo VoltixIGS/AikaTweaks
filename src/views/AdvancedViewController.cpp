@@ -2,9 +2,9 @@
 #include "AikaTweaks.hpp"
 #include "AikaTweaksConfig.hpp"
 
-DEFINE_TYPE(AikaTweaks, AdvancedViewController);
+DEFINE_TYPE(AikaTweaks::Views, AdvancedViewController);
 
-void AikaTweaks::AdvancedViewController::DidActivate(
+void AikaTweaks::Views::AdvancedViewController::DidActivate(
     bool firstActivation,
     bool addedToHierarchy,
     bool screenSystemEnabling

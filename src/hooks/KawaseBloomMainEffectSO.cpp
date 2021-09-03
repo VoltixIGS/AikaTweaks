@@ -1,8 +1,8 @@
 #include "AikaTweaks.hpp"
 
-#include "GlobalNamespace/PyramidBloomMainEffectSO.hpp"
-#include "GlobalNamespace/PyramidBloomRendererSO.hpp"
-#include "GlobalNamespace/PyramidBloomRendererSO_Pass.hpp"
+#include "GlobalNamespace/KawaseBloomMainEffectSO.hpp"
+#include "GlobalNamespace/KawaseBlurRendererSO.hpp"
+#include "GlobalNamespace/KawaseBlurRendererSO_WeightsType.hpp"
 #include "UnityEngine/Graphics.hpp"
 #include "UnityEngine/Material.hpp"
 #include "UnityEngine/Rendering/TextureDimension.hpp"
@@ -10,10 +10,10 @@
 #include "UnityEngine/Shader.hpp"
 
 MAKE_HOOK_MATCH(
-    PyramidBloomMainEffectSO_Render,
-    &GlobalNamespace::PyramidBloomMainEffectSO::Render,
+    KawaseBloomMainEffectSO_Render,
+    &GlobalNamespace::KawaseBloomMainEffectSO::Render,
     void,
-    GlobalNamespace::PyramidBloomMainEffectSO* self,
+    GlobalNamespace::KawaseBloomMainEffectSO* self,
     UnityEngine::RenderTexture* src,
     UnityEngine::RenderTexture* dest,
     float fade
@@ -48,10 +48,10 @@ MAKE_HOOK_MATCH(
     static ::Il2CppString* name = il2cpp_utils::newcsstr("unity_StereoMatrixVP");
     Shader::SetGlobalMatrix(name, projectionMatrix);
 
-    self->bloomRenderer->RenderBloom(doubleWideSrc, temporary, self->bloomRadius, self->bloomIntensity, self->downBloomIntensityOffset, false, false, self->pyramidWeightsParam, self->alphaWeights, 1.0f, 1.0f, self->preFilterPass, self->downsamplePass, self->upsamplePass, self->finalUpsamplePass);
+    self->kawaseBlurRenderer->Bloom(doubleWideSrc, temporary, 0, self->bloomIterations, self->bloomBoost, self->bloomAlphaWeights, KawaseBlurRendererSO::WeightsType::AlphaWeights, nullptr);
 
-    self->mainEffectMaterial->SetFloat(PyramidBloomMainEffectSO::_get__bloomIntensityID(), self->bloomBlendFactor);
-    self->mainEffectMaterial->SetTexture(PyramidBloomMainEffectSO::_get__bloomTexID(), temporary);
+    self->mainEffectMaterial->SetFloat(KawaseBloomMainEffectSO::_get__bloomIntensityID(), self->bloomIntensity);
+    self->mainEffectMaterial->SetTexture(KawaseBloomMainEffectSO::_get__bloomTexID(), temporary);
 
     Graphics::Blit(doubleWideSrc, doubleWideDst, self->mainEffectMaterial, 0);
 
@@ -72,6 +72,6 @@ MAKE_HOOK_MATCH(
     RenderTexture::ReleaseTemporary(doubleWideDst);
 }
 
-void AikaTweaks::Hooks::PyramidBloomMainEffectSO() {
-    INSTALL_HOOK(getLogger(), PyramidBloomMainEffectSO_Render);
+void AikaTweaks::Hooks::KawaseBloomMainEffectSO() {
+    INSTALL_HOOK(getLogger(), KawaseBloomMainEffectSO_Render);
 }

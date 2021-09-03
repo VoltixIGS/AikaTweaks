@@ -1,70 +1,37 @@
 #include "AikaTweaks.hpp"
-#include "AikaTweaksConfig.hpp"
-#include "AikaUtils.hpp"
-
-#include "GlobalNamespace/MenuTransitionsHelper.hpp"
-#include "HMUI/ViewController_AnimationDirection.hpp"
-#include "HMUI/ViewController_AnimationType.hpp"
-
-DEFINE_TYPE(AikaTweaks, MainFlowCoordinator);
+#include "SettingsFlowCoordinator.hpp"
 
 void AikaTweaks::Install() {
     custom_types::Register::AutoRegister();
     
     QuestUI::Init();
-    QuestUI::Register::RegisterModSettingsFlowCoordinator<AikaTweaks::MainFlowCoordinator*>(modInfo);
+    QuestUI::Register::RegisterModSettingsFlowCoordinator<AikaTweaks::SettingsFlowCoordinator*>(modInfo);
     
-    Hooks::GameplayCoreInstaller();
-    Hooks::MainSettingsModelSO();
-    Hooks::ParametricBoxFakeGlowController();
-    Hooks::PyramidBloomMainEffectSO();
-    Hooks::TubeBloomPrePassLight();
-    Hooks::VRRenderingParamsSetup();
+    AikaTweaks::Hooks::GameplayCoreInstaller();
+    AikaTweaks::Hooks::KawaseBloomMainEffectSO();
+    AikaTweaks::Hooks::MainSettingsModelSO();
+    AikaTweaks::Hooks::MainSystemInit();
+    AikaTweaks::Hooks::ParametricBoxFakeGlowController();
+    AikaTweaks::Hooks::PyramidBloomMainEffectSO();
+    AikaTweaks::Hooks::StretchableObstacle();
+    AikaTweaks::Hooks::TubeBloomPrePassLight();
+    AikaTweaks::Hooks::VRRenderingParamsSetup();
 }
 
-void AikaTweaks::MainFlowCoordinator::DidActivate(
-    bool firstActivation,
-    bool addedToHierarchy,
-    bool screenSystemEnabling
-) {
-    using namespace HMUI;
+void AikaTweaks::Utils::CopyTexture(UnityEngine::Texture* src, int srcElement, int srcMip, int srcX, int srcY, int srcWidth, int srcHeight, UnityEngine::Texture* dst, int dstElement, int dstMip, int dstX, int dstY) {
+    using namespace UnityEngine;
     
-    if (firstActivation) {
-        SetTitle(il2cpp_utils::createcsstr(ID), ViewController::AnimationType::Out);
-
-        showBackButton = true;
-
-        mainViewController = QuestUI::BeatSaberUI::CreateViewController<AikaTweaks::MainViewController*>();
-        mainViewController->flowCoordinator = this;
-
-        currentViewController = nullptr;
-
-        ProvideInitialViewControllers(mainViewController, nullptr, nullptr, nullptr, nullptr);
-    }
+    static auto CopyTexture_Region = reinterpret_cast<function_ptr_t<void, Texture*, int, int, int, int, int, int, Texture*, int, int, int, int>>(il2cpp_functions::resolve_icall("UnityEngine.Graphics::CopyTexture_Region"));
+    
+    CopyTexture_Region(src, srcElement, srcMip, srcX, srcY, srcWidth, srcHeight, dst, dstElement, dstMip, dstX, dstY);
 }
 
-void AikaTweaks::MainFlowCoordinator::BackButtonWasPressed(
-    HMUI::ViewController* topViewController
-) {
-    using namespace GlobalNamespace;
-    using namespace HMUI;
+UnityEngine::Matrix4x4 AikaTweaks::Utils::GetGPUProjectionMatrix(UnityEngine::Matrix4x4 proj, bool renderIntoTexture) {
     using namespace UnityEngine;
 
-    if (currentViewController) {
-        SetTitle(il2cpp_utils::createcsstr(ID), ViewController::AnimationType::In);
-        ReplaceTopViewController(mainViewController, this, this, nullptr, ViewController::AnimationType::Out, ViewController::AnimationDirection::Horizontal);
+    static auto GetGPUProjectionMatrix_Injected = reinterpret_cast<function_ptr_t<void, ByRef<Matrix4x4>, bool, ByRef<Matrix4x4>>>(il2cpp_functions::resolve_icall("UnityEngine.GL::GetGPUProjectionMatrix_Injected"));
 
-        currentViewController = nullptr;
-    } else {
-        if (requireRestart) {
-            AikaUtils::GetFirstObjectOfType<MenuTransitionsHelper*>()->RestartGame(nullptr);
-
-            requireRestart = false;
-
-            disableGraphics = false;
-            disableAdvanced = false;
-        } else {
-            parentFlowCoordinator->DismissFlowCoordinator(this, ViewController::AnimationDirection::Horizontal, nullptr, false);
-        }
-    }
+    Matrix4x4 result;
+    GetGPUProjectionMatrix_Injected(proj, renderIntoTexture, result);
+    return result;
 }
