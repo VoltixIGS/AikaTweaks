@@ -4,7 +4,7 @@
   "info": {
     "name": "AikaTweaks",
     "id": "AikaTweaks",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "url": null,
     "additionalData": {}
   },
@@ -16,6 +16,11 @@
     },
     {
       "id": "config-utils",
+      "versionRange": "*",
+      "additionalData": {}
+    },
+    {
+      "id": "libil2cpp",
       "versionRange": "*",
       "additionalData": {}
     }

@@ -4,9 +4,9 @@
     "name": "AikaTweaks",
     "id": "AikaTweaks",
     "author": "Aika, xyonico",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "packageId": "com.beatgames.beatsaber",
-    "packageVersion": "1.17.0",
+    "packageVersion": "1.17.1",
     "description": "Various tweaks for Beat Saber.",
     "coverImage": "cover.png",
     "modFiles": [
